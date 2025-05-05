@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "@open-assistant/framework": "^0.1.0",
+    "@open-assistant/core": "^0.3.6",
     "express": "^4.18.2"
   }
 }
