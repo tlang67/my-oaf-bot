@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coupa Bot</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+    #chat {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    #inputBox {
+      width: 100%;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat"></div>
+  <input id="inputBox" type="text" placeholder="Ask something..." />
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('inputBox');
+
+    input.addEventListener('keypress', async function (e) {
+      if (e.key === 'Enter') {
+        const userMsg = input.value;
+        chat.innerHTML += `<div><strong>You:</strong> ${userMsg}</div>`;
+        input.value = "";
+
+        const res = await fetch("/api/simple-bot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ input: userMsg })
+        });
+
+        const data = await res.json();
+        chat.innerHTML += `<div><strong>Bot:</strong> ${data.reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
